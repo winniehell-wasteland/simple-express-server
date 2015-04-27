@@ -1,5 +1,5 @@
 {
-  "name": "simple-server",
+  "name": "simple-express-server",
   "version": "1.0.0",
   "description": "simple node module to serve express apps",
   "main": "index.js",
