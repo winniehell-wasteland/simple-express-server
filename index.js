@@ -5,9 +5,8 @@ module.exports = function(app) {
   var path = require('path');
 
   var packageJson = require(path.join(packpath.parent(), 'package.json'));
-
-  var port = parseInt(process.env.PORT) || parseInt(packageJson.config.port) || 3000;
-  var hostName = process.env.HOSTNAME || packageJson.config.hostname || 'localhost';
+  var port = parseInt(process.env.PORT) || parseInt(process.env.npm_package_config_port) || 3000;
+  var hostName = process.env.HOSTNAME || process.env.npm_package_config_hostname || 'localhost';
 
   console.log('Running ' + packageJson.name + ' at http://' + hostName + ':' + port + ' ...');
   app.listen(port, hostName);
