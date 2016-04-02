@@ -18,8 +18,8 @@ module.exports = function (app) {
       throw new Error('There is no fallback host name in production environment!');
     }
   } else {
-    port = parseInt(process.env.PORT) || parseInt(process.env.npm_package_config_port) || 3000;
-    hostName = process.env.HOSTNAME || process.env.npm_package_config_hostname || 'localhost';
+    port = parseInt(process.env.npm_package_config_port) || parseInt(process.env.PORT) || 3000;
+    hostName = process.env.npm_package_config_hostname || process.env.HOSTNAME  || 'localhost';
   }
 
   console.log('Running ' + packageJson.name + ' at http://' + hostName + ':' + port + ' ...');
