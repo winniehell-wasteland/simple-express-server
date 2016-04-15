@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/winniehell/simple-server",
   "dependencies": {
-    "packpath": "^0.1.0"
+    "packpath": "^0.1.0",
+    "rc": "^1.1.6"
   },
   "devDependencies": {
     "express": "^4.12.3",

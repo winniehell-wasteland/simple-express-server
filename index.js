@@ -3,25 +3,34 @@ module.exports = function (app) {
 
   var packpath = require('packpath')
   var path = require('path')
+  var rc = require('rc')
 
-  var packageJson = require(path.join(packpath.parent(), 'package.json'))
-
-  var port, hostName
-  if (process.env.NODE_ENV === 'production') {
-    port = parseInt(process.env.PORT)
-    if (!port) {
-      throw new Error('There is no fallback port in production environment!')
-    }
-
-    hostName = process.env.HOSTNAME
-    if (!hostName) {
-      throw new Error('There is no fallback host name in production environment!')
-    }
-  } else {
-    port = parseInt(process.env.npm_package_config_port) || parseInt(process.env.PORT) || 3000
-    hostName = process.env.npm_package_config_hostname || process.env.HOSTNAME || 'localhost'
+  var defaultConfig = {}
+  if (process.env.NODE_ENV !== 'production') {
+    defaultConfig.hostName = 'localhost'
+    defaultConfig.port = 3000
   }
 
-  console.log('Running ' + packageJson.name + ' at http://' + hostName + ':' + port + ' ...')
-  app.listen(port, hostName)
+  var packageJson = require(path.join(packpath.parent(), 'package.json'))
+  if (!packageJson.name) {
+    throw new Error('package.json contains no package name!')
+  }
+
+  var packageConfig = rc(packageJson.name, defaultConfig)
+
+  if (!packageConfig.port) {
+    throw new Error('Missing port in config!')
+  }
+
+  packageConfig.port = parseInt(packageConfig.port)
+  if (!packageConfig.port) {
+    throw new Error('Port needs to be a number!')
+  }
+
+  if (!packageConfig.hostName) {
+    throw new Error('Missing host name in config!')
+  }
+
+  console.log('Running ' + packageJson.name + ' at http://' + packageConfig.hostName + ':' + packageConfig.port + ' ...')
+  app.listen(packageConfig.port, packageConfig.hostName)
 }
