@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-var express = require('express');
-var server = require('./index.js');
+var express = require('express')
+var server = require('./index.js')
 
-var app = express();
+var app = express()
 
-app.get('/hen', function(req, res, next) {
-  res.send('egg');
-});
+app.get('/hen', function (req, res, next) {
+  res.send('egg')
+})
 
-server(app);
+server(app)
